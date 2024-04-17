@@ -1,0 +1,11 @@
+FROM application_image
+
+USER root
+
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+
+COPY ./kafka/certs/CARoot.pem /usr/local/share/ca-certificates/my-cert.crt
+
+RUN cat /usr/local/share/ca-certificates/my-cert.crt >> /etc/ssl/certs/ca-certificates.crt
+
+CMD ["elixir_app", "start"]
